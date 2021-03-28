@@ -100,9 +100,20 @@ minikube delete
 kubectl apply -n argo-events -f https://github.com/argoproj/argo-workflows/blob/master/examples/dag-targets.yaml
 kubectl apply -n argo-events -f https://raw.githubusercontent.com/argoproj/argo-events/stable/examples/tutorials/03-trigger-sources/sensor-minio.yaml
 
+
+kubectl apply -n argo-events -f vf_01_sensor.yaml
+
+curl -d '{"message":"ok"}' -H "Content-Type: application/json" -X POST http://localhost:12000/devops-toolkit
+
 kubectl apply -n argo-events -f sensor-minio.yaml
 
 demo@demo:~/k8/argo-events-demo$ kubectl -n argo-events apply -f sensor-minio.yaml
 sensor.argoproj.io/webhook configured
 
 curl -d '{"message":"ok"}' -H "Content-Type: application/json" -X POST http://localhost:12000/example
+
+
+ kubectl apply -n argo-events -f s1_00_event-sources.yaml
+eventsource.argoproj.io/webhook configured
+ kubectl apply -n argo-events -f s1_01_sensor.yaml
+sensor.argoproj.io/webhook configured
