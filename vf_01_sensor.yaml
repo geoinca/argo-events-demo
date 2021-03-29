@@ -1,13 +1,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Sensor
 metadata:
-  name: webhook
+  name: webhookvf
 spec:
   template:
     serviceAccountName: argo-events-sa
   dependencies:
   - name: payload
-    eventSourceName: webhook
+    eventSourceName: webhookvf
     eventName: devops-toolkit
   triggers:
   - template:
@@ -28,8 +28,8 @@ spec:
             spec:
               containers:
               - name: hello
-                image: alpine
-                command: ["echo"]
+                image: docker/whalesay:latest
+                command: [cowsay]
                 args: ["This is the message you sent me:\n", ""]
               restartPolicy: Never
         parameters:

@@ -103,8 +103,8 @@ kubectl apply -n argo-events -f https://raw.githubusercontent.com/argoproj/argo-
 
 kubectl apply -n argo-events -f vf_01_sensor.yaml
 
-curl -d '{"message":"ok"}' -H "Content-Type: application/json" -X POST http://localhost:12000/devops-toolkit
-
+curl -d '{"message":"ok"}'    -H "Content-Type: application/json" -X POST http://localhost:12000/devops-toolkit
+curl -d '{"message":"ok :)"}' -H "Content-Type: application/json" -X POST http://localhost:12000/devops-toolkit
 kubectl apply -n argo-events -f sensor-minio.yaml
 
 demo@demo:~/k8/argo-events-demo$ kubectl -n argo-events apply -f sensor-minio.yaml
