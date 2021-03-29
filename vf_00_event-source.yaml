@@ -9,6 +9,6 @@ spec:
         targetPort: 12021
   webhookvf:
     devops-toolkit:
-      port: "12000"
+      port: "12021"
       endpoint: /devops-toolkit
       method: POST
