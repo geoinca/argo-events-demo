@@ -45,9 +45,10 @@ kubectl --namespace argo-events \
 
 kubectl --namespace argo-events \
     get pods
-
+webhook-eventsource-qp6bs-699b58d768-l7fcj
 # Replace `[...]` with the name of the `webhook-eventsource-*` Pod
-export EVENTSOURCE_POD_NAME=[...]
+export EVENTSOURCE_POD_NAME=webhook-eventsource-qp6bs-699b58d768-l7fcj
+[...]
 
 kubectl --namespace argo-events \
     port-forward $EVENTSOURCE_POD_NAME 12000:12000 &
@@ -115,5 +116,12 @@ curl -d '{"message":"ok"}' -H "Content-Type: application/json" -X POST http://lo
 
  kubectl apply -n argo-events -f s1_00_event-sources.yaml
 eventsource.argoproj.io/webhook configured
- kubectl apply -n argo-events -f s1_01_sensor.yaml
+ kubectl apply -n argo-events -f s1_01_sensor.yamleyJuYXRzIjp7InVybCI6Im5hdHM6Ly9ldmVudGJ1cy1kZWZhdWx0LXN0YW4tc3ZjOjQyMjIiLCJjbHVzdGVySUQiOiJldmVudGJ1cy1kZWZhdWx0IiwiYXV0aCI6InRva2VuIiwiYWNjZXNzU2VjcmV0Ijp7Im5hbWUiOiJldmVudGJ1cy1kZWZhdWx0LWNsaWVudCIsImtleSI6ImNsaWVudC1hdXRoIn19fQ==
 sensor.argoproj.io/webhook configured
+{"metadata":
+{"name":"webhook","namespace":"argo-events","creationTimestamp":null},
+ "spec":   {"service":{"ports":[{"port":12000,"targetPort":12000}]},
+ "webhook":{"example":{"endpoint":"/example","method":"POST","port":"12000","url":""},
+           "example2":{"endpoint":"/example2","method":"POST","port":"12000","url":""}}},
+ "status":{}
+ }
