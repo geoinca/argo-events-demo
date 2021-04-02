@@ -1,19 +1,24 @@
-# [Argo Events - Event-Based Dependency Manager for Kubernetes](https://youtu.be/sUPkGChvD54)
+### Argo Events - Event-Based Dependency Manager for Kubernetes
+
+(https://youtu.be/sUPkGChvD54)
 
 
-# Source: https://gist.github.com/a0a7ff04a7e22409cdfd8b466edb4e48
+#### Source: https://gist.github.com/a0a7ff04a7e22409cdfd8b466edb4e48
 
-#################################################
-# Argo Events                                   #
-# Event-Based Dependency Manager for Kubernetes #
-# https://youtu.be/sUPkGChvD54                  #
-#################################################
+ 
+  Argo Events                                    
+  Event-Based Dependency Manager for Kubernetes  
+  https://youtu.be/sUPkGChvD54                   
+ 
 
-#########
-# Setup #
-#########
+ 
+#### Setup  
+ 
 
-# It could be any Kubernetes cluster
+##### It could be any Kubernetes cluster
+
+```console
+
 minikube start
 
 kubectl create namespace argo-events
@@ -27,11 +32,11 @@ kubectl --namespace argo-events apply \
 git clone https://github.com/vfarcic/argo-events-demo.git
 
 cd argo-events-demo
-
-##########################
-# Creating event sources #
-##########################
-
+```
+ 
+#### Creating event sources  
+ 
+```console
 cat event-source.yaml
 
 kubectl --namespace argo-events apply \
@@ -45,10 +50,12 @@ kubectl --namespace argo-events \
 
 kubectl --namespace argo-events \
     get pods
-webhook-eventsource-qp6bs-699b58d768-l7fcj
-# Replace `[...]` with the name of the `webhook-eventsource-*` Pod
-export EVENTSOURCE_POD_NAME=webhook-eventsource-qp6bs-699b58d768-l7fcj
-[...]
+```
+
+#### Replace `[...]` with the name of the `webhook-eventsource-*` Pod
+
+```console
+export EVENTSOURCE_POD_NAME=[...]
 
 kubectl --namespace argo-events \
     port-forward $EVENTSOURCE_POD_NAME 12000:12000 &
@@ -61,13 +68,13 @@ curl -X POST \
 
  minikube  service list
  kubectl -n argo-events port-forward service/webhook-eventsource-svc 12000:12000   
+```
+#### Open https://github.com/argoproj/argo-events/blob/master/api/event-source.md#eventsourcespec
 
-# Open https://github.com/argoproj/argo-events/blob/master/api/event-source.md#eventsourcespec
 
-#################################
-# Creating sensors and triggers #
-#################################
+#### Creating sensors and triggers  
 
+```console
 cat sensor.yaml
 
 kubectl --namespace argo-events apply \
@@ -86,17 +93,20 @@ kubectl --namespace argo-events logs \
 kubectl --namespace argo-events \
     delete pods \
     --selector app=payload
+```
+#### Open https://github.com/argoproj/argo-events/blob/master/api/sensor.md#sensor
 
-# Open https://github.com/argoproj/argo-events/blob/master/api/sensor.md#sensor
+ 
+#### Destroy
 
-###########
-# Destroy #
-###########
-
+```console
 pkill kubectl
 
 minikube delete
 
+```
+
+```console
 
 kubectl apply -n argo-events -f https://github.com/argoproj/argo-workflows/blob/master/examples/dag-targets.yaml
 kubectl apply -n argo-events -f https://raw.githubusercontent.com/argoproj/argo-events/stable/examples/tutorials/03-trigger-sources/sensor-minio.yaml
@@ -104,10 +114,11 @@ kubectl apply -n argo-events -f https://raw.githubusercontent.com/argoproj/argo-
 
 kubectl apply -n argo-events -f vf_01_sensor.yaml
 
+
 curl -d '{"message":"ok"}'    -H "Content-Type: application/json" -X POST http://localhost:12000/devops-toolkit
 curl -d '{"message":"ok :)"}' -H "Content-Type: application/json" -X POST http://localhost:12000/devops-toolkit
 kubectl apply -n argo-events -f sensor-minio.yaml
-
+```
 demo@demo:~/k8/argo-events-demo$ kubectl -n argo-events apply -f sensor-minio.yaml
 sensor.argoproj.io/webhook configured
 
@@ -116,12 +127,6 @@ curl -d '{"message":"ok"}' -H "Content-Type: application/json" -X POST http://lo
 
  kubectl apply -n argo-events -f s1_00_event-sources.yaml
 eventsource.argoproj.io/webhook configured
- kubectl apply -n argo-events -f s1_01_sensor.yamleyJuYXRzIjp7InVybCI6Im5hdHM6Ly9ldmVudGJ1cy1kZWZhdWx0LXN0YW4tc3ZjOjQyMjIiLCJjbHVzdGVySUQiOiJldmVudGJ1cy1kZWZhdWx0IiwiYXV0aCI6InRva2VuIiwiYWNjZXNzU2VjcmV0Ijp7Im5hbWUiOiJldmVudGJ1cy1kZWZhdWx0LWNsaWVudCIsImtleSI6ImNsaWVudC1hdXRoIn19fQ==
+ kubectl apply -n argo-events -f s1_01_sensor.yaml
 sensor.argoproj.io/webhook configured
-{"metadata":
-{"name":"webhook","namespace":"argo-events","creationTimestamp":null},
- "spec":   {"service":{"ports":[{"port":12000,"targetPort":12000}]},
- "webhook":{"example":{"endpoint":"/example","method":"POST","port":"12000","url":""},
-           "example2":{"endpoint":"/example2","method":"POST","port":"12000","url":""}}},
- "status":{}
- }
+```
