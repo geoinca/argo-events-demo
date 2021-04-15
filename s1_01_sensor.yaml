@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Sensor
 metadata:
-  name: webhook
+  name: webhook01
 spec:
   template:
-    serviceAccountName: argo-events-sa
+    serviceAccountName: argo-events-sa  
   dependencies:
     - name: test-dep
       eventSourceName: webhook
@@ -22,7 +22,7 @@ spec:
               apiVersion: argoproj.io/v1alpha1
               kind: Workflow
               metadata:
-                generateName: webhook-
+                generateName: webhook01-
               spec:
                 entrypoint: whalesay
                 arguments:
@@ -43,4 +43,5 @@ spec:
           parameters:
             - src:
                 dependencyName: test-dep
+                dataKey: body.message
               dest: spec.arguments.parameters.0.value
